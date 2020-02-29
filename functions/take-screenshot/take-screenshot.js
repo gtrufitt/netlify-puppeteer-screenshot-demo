@@ -1,5 +1,4 @@
 const chromium = require('chrome-aws-lambda');
-const mergeImg = require("merge-img");
 
 exports.handler = async (event, context) => {
 
@@ -21,10 +20,7 @@ exports.handler = async (event, context) => {
 
     await page.goto(pageToScreenshot, { waitUntil: 'networkidle2' });
 
-    const screenshot = await page.screenshot({ fullPage: true });    
-    const screenshot2 = await page.screenshot({ fullPage: true });
-    
-    var encodedImage = await mergeImg([screenshot, screenshot2]).then(image => image.getBufferAsync("image/jpeg").then(img => Buffer.from(img, 'binary')));
+    const screenshot = await page.screenshot({ encoding: 'binary', fullPage: true });
 
     await browser.close();
   
@@ -32,7 +28,7 @@ exports.handler = async (event, context) => {
         statusCode: 200,
         body: JSON.stringify({ 
             message: `Complete screenshot of ${pageToScreenshot}!`, 
-            buffer: encodedImage 
+            buffer: screenshot 
         })
     }
 
