@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
     const screenshot = await page.screenshot({ fullPage: true });    
     const screenshot2 = await page.screenshot({ fullPage: true });
     
-    var encodedImage = await mergeImg([screenshot, screenshot2]).then(img => new Buffer(img, 'binary').toString('base64'))
+    var encodedImage = await mergeImg([screenshot, screenshot2]).then(img => Buffer.from(img, 'binary'));
 
     await browser.close();
   
