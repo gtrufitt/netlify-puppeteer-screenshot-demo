@@ -2,7 +2,10 @@
   "name": "netlify-puppeteer-screenshot-demo",
   "description": "",
   "version": "1.0.0",
-  "prebuild" : "cd functions/take-screenshot && npm i",
+  "scripts": {
+    "build": "#",
+    "prebuild": "cd functions/take-screenshot && npm i"
+  },
   "dependencies": {},
   "devDependencies": {}
 }
