@@ -3,7 +3,7 @@
   "description": "",
   "version": "1.0.0",
   "scripts": {
-    "build": "#",
+    "build": "echo buildCommand",
     "prebuild": "cd functions/take-screenshot && npm i"
   },
   "dependencies": {},
