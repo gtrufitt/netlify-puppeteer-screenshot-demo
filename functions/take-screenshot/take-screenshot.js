@@ -10,7 +10,12 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ message: 'Page URL not defined' })
     }
     
-      const browser = await chromium.puppeteer.launch();
+      const browser = await chromium.puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless,
+      });
       const page = await browser.newPage();
       await page.goto(pageToScreenshot);
       const screenshot = await page.screenshot({ encoding: 'binary' });
