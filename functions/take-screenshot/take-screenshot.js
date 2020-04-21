@@ -17,9 +17,9 @@ exports.handler = async (event, context) => {
         headless: chromium.headless,
       });
       const page = await browser.newPage();
-      await page.setViewport({width: 1900, height: 2000});
+      await page.setViewport({width: 1900, height: 3500});
       await page.goto(pageToScreenshot);
-      const screenshot = await page.screenshot({ encoding: 'base64',  fullPage: true });
+      const screenshot = await page.screenshot({ encoding: 'base64' });
      
       await browser.close();
     
