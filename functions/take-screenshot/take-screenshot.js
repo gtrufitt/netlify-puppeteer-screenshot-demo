@@ -4,6 +4,25 @@ exports.handler = async (event, context) => {
 
     
     const pageToScreenshot = JSON.parse(event.body).pageToScreenshot;
+    
+    const autoScroll = async page => {
+      await page.evaluate(async () => {
+        await new Promise((resolve, reject) => {
+          let totalHeight = 0;
+          let distance = 200;
+          window.scrollTo(0, 0);
+          let timer = setInterval(() => {
+            let scrollHeight = document.body.scrollHeight;
+            window.scrollBy(0, distance);
+            totalHeight += distance;
+            if (totalHeight >= scrollHeight) {
+              clearInterval(timer);
+              resolve();
+            }
+          }, 300);
+        });
+      });
+    };
 
     if (!pageToScreenshot) return {
         statusCode: 400,
@@ -17,7 +36,9 @@ exports.handler = async (event, context) => {
         headless: chromium.headless,
       });
       const page = await browser.newPage();
-      await page.goto(pageToScreenshot);
+      await page.setViewport({width: pupeteerScreenshotSettings.defaultViewport.width, height: 2000});
+      await page.goto(pageToScreenshot, { waitUntil: ["load", "networkidle2"] });
+      await autoScroll(page);
       const screenshot = await page.screenshot({ encoding: 'base64' });
      
       await browser.close();
