@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
       });
       const page = await browser.newPage();
       await page.setViewport({width: 1900, height: 2000});
-      await page.goto(pageToScreenshot, { waitUntil: ["load", "networkidle2"] });
+      await page.goto(pageToScreenshot);
       const screenshot = await page.screenshot({ encoding: 'base64',  fullPage: true });
      
       await browser.close();
