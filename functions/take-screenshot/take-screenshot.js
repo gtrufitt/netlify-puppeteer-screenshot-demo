@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
       });
       const page = await browser.newPage();
       await page.goto(pageToScreenshot);
-      const screenshot = await page.screenshot({ encoding: 'binary' });
+      const screenshot = await page.screenshot({ encoding: 'base64' });
      
       await browser.close();
     
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
         statusCode: 200,
          body: JSON.stringify({ 
                 message: `Complete screenshot of ${pageToScreenshot}!`, 
-                buffer: screenshot 
+                data: screenshot 
             }),
         headers: {
         'Content-Type': 'image/png',
