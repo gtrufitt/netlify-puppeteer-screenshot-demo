@@ -39,7 +39,9 @@ exports.handler = async (event, context) => {
       });
       const page = await browser.newPage();
       await page.setViewport({width: 1900, height: 3500});
-      await page.goto(pageToScreenshot);
+      const start = Date.now();
+      await page.goto(pageToScreenshot, { waitUntil: 'networkidle2' });
+      console.log('Took', Date.now() - start, 'ms');
       await autoScroll(page, "Page 2:");
       const screenshot = await page.screenshot({ encoding: 'base64' });
      
